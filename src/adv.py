@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -49,3 +50,27 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+# REPL
+# LOOP
+
+player = Player(room['outside'], 'James')
+while True:
+    print("You are currently in " + player.currentRoom.name)
+    # READ
+    cmd = input("->")
+    # EVAL
+    if cmd == "n":
+        try:
+            player.n_to
+            print("You traveled to " + player.currentRoom.name)
+        except AttributeError:
+            print("No path!")
+    elif cmd == "q":
+        # QUIT
+        print("Goodbye!")
+        break
+else:
+    print("I did not recognize that command")
+# PRINT
+# print(player.currentRoom)
