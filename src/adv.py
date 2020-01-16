@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from playerItems import Item
 
 # Declare all the rooms
 
@@ -53,19 +54,72 @@ room['treasure'].s_to = room['narrow']
 
 # REPL
 # LOOP
+playerItems = [
+    Item('Silver Sword', 'The blade is gilded silver, perfect for slaying the supernatural'),
+    Item('Horse Whip', 'This whip helps you travel faster'),
+]
 
-player = Player(room['outside'], 'James')
+player = Player(room['outside'], 'James', 'elf', playerItems)
+
+
 while True:
     print("You are currently in " + player.currentRoom.name)
+    
     # READ
-    cmd = input("->")
+    cmd = input("->").lower()
+    
     # EVAL
     if cmd == "n":
         try:
-            player.n_to
-            print("You traveled to " + player.currentRoom.name)
+            player.currentRoom.n_to
+            print("You traveled to " + player.currentRoom.n_to.name)
         except AttributeError:
             print("No path!")
+        else:
+            player.currentRoom = player.currentRoom.n_to
+    if cmd == "e":
+        try:
+            player.currentRoom.e_to
+            print("You traveled to " + player.currentRoom.e_to.name)
+        except AttributeError:
+            print("No path east!")
+        else:
+            player.currentRoom = player.currentRoom.e_to
+    if cmd == "s":
+        try:
+            player.currentRoom.s_to
+            print("You traveled to " + player.currentRoom.s_to.name)
+        except AttributeError:
+            print("No path souths!")
+        else:
+            player.currentRoom = player.currentRoom.s_to
+    if cmd == "w":
+        try:
+            player.currentRoom.w_to
+            print("You traveled to " + player.currentRoom.w_to.name)
+        except AttributeError:
+            print("No path west!")
+        else:
+            player.currentRoom = player.currentRoom.w_to
+
+    if cmd == "whip":
+        for i in player.playerItems:
+            if i.name == "Horse Whip":
+                try:
+                    player.currentRoom = room['treasure']
+                except AttributeError:
+                    print("No whip equiped!")
+                else:
+                    player.currentRoom = player.currentRoom
+
+
+    if cmd == "i":
+        try:
+            print("you have these items: ")
+            print(player.inventory())
+        except AttributeError:
+            print("No items in your inventory!")
+
     elif cmd == "q":
         # QUIT
         print("Goodbye!")
