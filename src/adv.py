@@ -55,17 +55,45 @@ room['treasure'].s_to = room['narrow']
 # LOOP
 
 player = Player(room['outside'], 'James')
+
 while True:
     print("You are currently in " + player.currentRoom.name)
     # READ
     cmd = input("->")
+    
     # EVAL
     if cmd == "n":
         try:
-            player.n_to
-            print("You traveled to " + player.currentRoom.name)
+            player.currentRoom.n_to
+            print("You traveled to " + player.currentRoom.n_to.name)
         except AttributeError:
             print("No path!")
+        else:
+            player.currentRoom = player.currentRoom.n_to
+    if cmd == "e":
+        try:
+            player.currentRoom.e_to
+            print("You traveled to " + player.currentRoom.e_to.name)
+        except AttributeError:
+            print("No path east!")
+        else:
+            player.currentRoom = player.currentRoom.e_to
+    if cmd == "s":
+        try:
+            player.currentRoom.s_to
+            print("You traveled to " + player.currentRoom.s_to.name)
+        except AttributeError:
+            print("No path souths!")
+        else:
+            player.currentRoom = player.currentRoom.s_to
+    if cmd == "w":
+        try:
+            player.currentRoom.w_to
+            print("You traveled to " + player.currentRoom.w_to.name)
+        except AttributeError:
+            print("No path west!")
+        else:
+            player.currentRoom = player.currentRoom.w_to
     elif cmd == "q":
         # QUIT
         print("Goodbye!")
