@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from playerItems import Item
 
 # Declare all the rooms
 
@@ -53,13 +54,19 @@ room['treasure'].s_to = room['narrow']
 
 # REPL
 # LOOP
+playerItems = [
+    Item('Silver Sword', 'The blade is gilded silver, perfect for slaying the supernatural'),
+    Item('Horse Whip', 'This whip helps you travel faster'),
+]
 
-player = Player(room['outside'], 'James')
+player = Player(room['outside'], 'James', 'elf', playerItems)
+
 
 while True:
     print("You are currently in " + player.currentRoom.name)
+    
     # READ
-    cmd = input("->")
+    cmd = input("->").lower()
     
     # EVAL
     if cmd == "n":
@@ -94,6 +101,25 @@ while True:
             print("No path west!")
         else:
             player.currentRoom = player.currentRoom.w_to
+
+    if cmd == "whip":
+        for i in player.playerItems:
+            if i.name == "Horse Whip":
+                try:
+                    player.currentRoom = room['treasure']
+                except AttributeError:
+                    print("No whip equiped!")
+                else:
+                    player.currentRoom = player.currentRoom
+
+
+    if cmd == "i":
+        try:
+            print("you have these items: ")
+            print(player.inventory())
+        except AttributeError:
+            print("No items in your inventory!")
+
     elif cmd == "q":
         # QUIT
         print("Goodbye!")
